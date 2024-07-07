@@ -9,12 +9,14 @@ Windower& Windower::get() {
 }
 
 void Windower::init() {
-	auto* director = CCDirector::sharedDirector();
-	auto* view = CCEGLView::sharedOpenGLView();
-	auto* window = director->getOpenGLView()->getWindow();
+	auto director = CCDirector::sharedDirector();
+	auto window = director->getOpenGLView()->getWindow();
 	// nice update-friendly code
 	this->window = WindowFromDC(*reinterpret_cast<HDC*>(reinterpret_cast<uintptr_t>(window) + 0x278));
 	GetWindowRect(this->window, &this->rect);
+
+	this->desktop = GetDesktopWindow();
+	GetWindowRect(this->desktop, &this->desktopRect);
 }
 
 // magic code that works somehow
@@ -25,6 +27,14 @@ void Windower::update(GJGameState state) {
 
 	auto width = this->rect.right - this->rect.left;
 	auto height = this->rect.bottom - this->rect.top;
+
+
+	if (true) {
+		long maxX = this->desktopRect.right - width;
+		long maxY = this->desktopRect.bottom - height;
+		x = (int)(state.m_cameraPosition.x * zoom) % maxX;
+		y = -(int)(state.m_cameraPosition.y * zoom) % maxY;
+	}
 
 	auto newWidth = width * zoom;
 	auto newHeight = height * zoom;

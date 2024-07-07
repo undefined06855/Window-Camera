@@ -8,6 +8,8 @@ public:
 
 	HWND window;
 	RECT rect;
+	HWND desktop;
+	RECT desktopRect;
 
 	void init();
 	void update(GJGameState state);
