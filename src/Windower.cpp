@@ -17,6 +17,8 @@ void Windower::init() {
 
 	this->desktop = GetDesktopWindow();
 	GetWindowRect(this->desktop, &this->desktopRect);
+
+	SetLayeredWindowAttributes(this->window, RGB(0, 0, 1), 0, LWA_COLORKEY);
 }
 
 // magic code that works somehow
@@ -27,7 +29,6 @@ void Windower::update(GJGameState state) {
 
 	auto width = this->rect.right - this->rect.left;
 	auto height = this->rect.bottom - this->rect.top;
-
 
 	if (true) {
 		long maxX = this->desktopRect.right - width;
